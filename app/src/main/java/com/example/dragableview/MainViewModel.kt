@@ -14,8 +14,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.unit.IntRect
 
 class MainViewModel: ViewModel() {
-    val dragViewState by mutableStateOf(DragViewState(Offset.Zero, Offset.Zero))
-    val greenBoxState by mutableStateOf(GreenBoxState(Offset.Zero, IntSize.Zero))
+    val dragViewState by mutableStateOf(DragViewState(Offset.Zero, Offset.Zero, mutableStateOf(true)))
+//    val greenBoxState by mutableStateOf(GreenBoxState(Offset.Zero, IntSize.Zero, mutableStateOf(false)))
 
     val listOFGreenBoxStates = mutableSetOf<GreenBoxState>()
 
@@ -23,20 +23,23 @@ class MainViewModel: ViewModel() {
 
     var rowLayoutSize = IntRect(IntOffset.Zero, IntSize.Zero)
 
+
     fun onDragEnd(currentPosition: Offset): Boolean {
 
         dragViewState.currentOffset = currentPosition
         Log.d(TAG, "onDragEnd: Current offset: ${dragViewState.currentOffset}")
 
-        val contains = listOFGreenBoxStates.find { it.contains(dragViewState.currentOffset) }
-        Log.d(TAG, "onDragEnd: contains: ${contains != null}")
+        listOFGreenBoxStates.forEach {
+            val contains = it.contains(dragViewState.currentOffset)
+            if (contains) {
+                it.visibility.value = true
+                dragViewState.visibility.value = false
+                dragViewState.currentOffset = dragViewState.startOffset
+                return true
+            }
+        }
 
-//        listOFGreenBoxStates.forEach {
-//            val tempContains = it.contains(dragViewState.currentOffset)
-//            if (tempContains) return false
-//        }
-
-        return contains == null
+        return false
     }
 
     fun onOffsetChange(offsetX: Float, offsetY: Float) {
@@ -54,6 +57,11 @@ class MainViewModel: ViewModel() {
 
     fun setPosition(rect: Rect) {
 
+    }
+
+    fun onCardClick(greenBoxState: GreenBoxState) {
+        greenBoxState.visibility.value = false
+        dragViewState.visibility.value = true
     }
 }
 
