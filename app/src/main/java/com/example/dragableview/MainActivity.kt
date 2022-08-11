@@ -140,74 +140,60 @@ fun DragView(
     testState: TestSate
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val offsetX by remember { mutableStateOf(Animatable(0f)) }
-    val offsetY by remember { mutableStateOf(Animatable(0f)) }
     var position by remember { mutableStateOf(Offset.Zero) }
-
     val animatedOffset by remember {
         mutableStateOf(Animatable(Offset(0f, 0f), Offset.VectorConverter))
     }
 
 
-//    Box(modifier = Modifier
-//        .zIndex(2f)
-//    ) {
-//        key (testState) {
-//            Log.d(TAG, "DragView: RECOMPOOOOOOOOOOOOSE")
-            Box(
-                Modifier
-                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-                    .zIndex(2f)
-                    .background(Blue)
-                    .size(50.dp)
-                    .onGloballyPositioned { coords ->
-                        position = coords.positionInRoot()
+    Box(
+        Modifier
+            .offset {
+                IntOffset(
+                    animatedOffset.value.x.roundToInt(),
+                    animatedOffset.value.y.roundToInt(),
+                )
+            }
+            .zIndex(2f)
+            .background(Blue)
+            .size(50.dp)
+            .onGloballyPositioned { coords ->
+                position = coords.positionInRoot()
 //                        Log.d(TAG, "DragView: global position: $position")
-                    }
-                    .pointerInput(Unit) {
-                        detectDragGestures(
-                            onDragStart = {
-                                state.startOffset = Offset(offsetX.value, offsetY.value)
-                            },
-                            onDragEnd = {
-                                val isNotCardArea = onDragEnd(position)
-                                if (isNotCardArea) {
-                                    coroutineScope.launch {
-                                        launch {
-                                            offsetX.animateTo(
-                                                targetValue = state.startOffset.x,
-                                                animationSpec = tween(
-                                                    durationMillis = 1000,
-                                                    delayMillis = 0
-                                                )
-                                            )
-                                        }
-                                        offsetY.animateTo(
-                                            targetValue = state.startOffset.y,
-                                            animationSpec = tween(
-                                                durationMillis = 1000,
-                                                delayMillis = 0
-                                            )
-                                        )
-                                    }
-                                }
-                            }
-                        ) { change, dragAmount ->
-//                            change.consumeAllChanges()
+            }
+            .pointerInput(Unit) {
+                detectDragGestures(
+                    onDragStart = {
+                        state.startOffset = animatedOffset.value
+                    },
+                    onDragEnd = {
+                        val isNotCardArea = onDragEnd(position)
+                        if (isNotCardArea) {
                             coroutineScope.launch {
-                                offsetX.snapTo(offsetX.value + dragAmount.x)
-                                offsetY.snapTo(offsetY.value + dragAmount.y)
+                                animatedOffset.animateTo(
+                                    targetValue = state.startOffset,
+                                    animationSpec = tween(
+                                        durationMillis = 1000,
+                                        delayMillis = 0
+                                    )
+                                )
                             }
                         }
                     }
+                ) { change, dragAmount ->
+//                            change.consumeAllChanges()
+                    coroutineScope.launch {
+                        animatedOffset.snapTo(Offset(
+                            animatedOffset.value.x + dragAmount.x,
+                            animatedOffset.value.y + dragAmount.y,
+                        ))
+                    }
+                }
+            }
 
-            )
-        }
-//    }
-//}
+    )
+}
 
-
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GreenBox(
     state: GreenBoxState,
