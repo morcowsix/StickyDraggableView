@@ -23,24 +23,20 @@ class MainViewModel: ViewModel() {
 
     var rowLayoutSize = IntRect(IntOffset.Zero, IntSize.Zero)
 
-    fun onDragEnd(
-        currentPosition: Offset
-    ): Boolean {
-
-        Log.d(TAG, "onDragEnd: listOfStates: ${listOFGreenBoxStates.size}")
-//        Log.d(TAG, "onDragEnd: listOfStatesItems: ${listOFGreenBoxStates}")
+    fun onDragEnd(currentPosition: Offset): Boolean {
 
         dragViewState.currentOffset = currentPosition
         Log.d(TAG, "onDragEnd: Current offset: ${dragViewState.currentOffset}")
-        val contains = true
-        listOFGreenBoxStates.forEach {
-//            Log.d(TAG, "onDragEnd: listItem: $it")
-            val tempContains = it.contains(dragViewState.currentOffset)
-            Log.d(ContentValues.TAG, "onDragEnd: ${it.toRect()} contains: $tempContains")
-            if (tempContains) return false
-        }
 
-        return contains
+        val contains = listOFGreenBoxStates.find { it.contains(dragViewState.currentOffset) }
+        Log.d(TAG, "onDragEnd: contains: ${contains != null}")
+
+//        listOFGreenBoxStates.forEach {
+//            val tempContains = it.contains(dragViewState.currentOffset)
+//            if (tempContains) return false
+//        }
+
+        return contains == null
     }
 
     fun onOffsetChange(offsetX: Float, offsetY: Float) {
