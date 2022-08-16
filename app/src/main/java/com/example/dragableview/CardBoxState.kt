@@ -33,6 +33,10 @@ data class CardBoxState(
         stickiedDraggableView?.visibility?.value = true
         stickiedDraggableView = view
     }
+
+    fun getStickiedContent(): String {
+        return stickiedDraggableView?.content.toString()
+    }
 }
 
 fun CardBoxState.toRect(): Rect {

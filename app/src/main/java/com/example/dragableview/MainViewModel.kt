@@ -10,12 +10,11 @@ class MainViewModel: ViewModel() {
     private val draggableViewStates = mutableSetOf<DraggableViewState>()
 
     fun checkCardsForIntersectionWithView(dragView: DraggableViewState): Boolean {
-        Log.d(TAG, "onDragEnd: DragView: $dragView \n Current offset: ${dragView.currentOffset}")
-
         greenBoxStates.forEach { greenBox ->
             val contains = greenBox.contains(dragView.currentOffset)
             if (contains) {
                 dragView.hide()
+                greenBox.releaseStickiedView()
                 greenBox.stickView(dragView)
                 return true
             }

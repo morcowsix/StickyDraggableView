@@ -8,7 +8,8 @@ import kotlin.math.roundToInt
 data class DraggableViewState(
     var startOffset: Offset,
     var currentOffset: Offset,
-    var visibility: MutableState<Boolean>
+    var visibility: MutableState<Boolean>,
+    var content: Any? = null
 ) {
     fun hide() {
         visibility.value = false
