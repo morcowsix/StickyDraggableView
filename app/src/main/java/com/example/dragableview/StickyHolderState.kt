@@ -7,10 +7,10 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.toSize
 
-data class CardBoxState(
+data class StickyHolderState(
     var position: Offset,
     var size: IntSize,
-    private val chipVisibility: MutableState<Boolean> = mutableStateOf(false),
+    private val stickerVisibility: MutableState<Boolean> = mutableStateOf(false),
     private var stickiedDraggableView: DraggableViewState? = null
 ) {
     fun contains(offset: Offset): Boolean {
@@ -18,18 +18,18 @@ data class CardBoxState(
         return rect.contains(offset)
     }
 
-    fun chipIsVisible(): Boolean {
-        return chipVisibility.value
+    fun stickerIsVisible(): Boolean {
+        return stickerVisibility.value
     }
 
     fun releaseStickiedView() {
-        chipVisibility.value = false
+        stickerVisibility.value = false
         stickiedDraggableView?.visibility?.value = true
         stickiedDraggableView = null
     }
 
     fun stickView(view: DraggableViewState) {
-        chipVisibility.value = true
+        stickerVisibility.value = true
         stickiedDraggableView?.visibility?.value = true
         stickiedDraggableView = view
     }
@@ -39,6 +39,6 @@ data class CardBoxState(
     }
 }
 
-fun CardBoxState.toRect(): Rect {
+fun StickyHolderState.toRect(): Rect {
     return Rect(position, size.toSize())
 }

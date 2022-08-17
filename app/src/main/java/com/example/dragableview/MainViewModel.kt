@@ -1,21 +1,19 @@
 package com.example.dragableview
 
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class MainViewModel: ViewModel() {
 
-    private val greenBoxStates = mutableSetOf<CardBoxState>()
+    private val stickyHoldersStates = mutableSetOf<StickyHolderState>()
     private val draggableViewStates = mutableSetOf<DraggableViewState>()
 
-    fun checkCardsForIntersectionWithView(dragView: DraggableViewState): Boolean {
-        greenBoxStates.forEach { greenBox ->
-            val contains = greenBox.contains(dragView.currentOffset)
+    fun checkCardsForIntersection(draggableView: DraggableViewState): Boolean {
+        stickyHoldersStates.forEach { stickyHolder ->
+            val contains = stickyHolder.contains(draggableView.currentOffset)
             if (contains) {
-                dragView.hide()
-                greenBox.releaseStickiedView()
-                greenBox.stickView(dragView)
+                draggableView.hide()
+                stickyHolder.releaseStickiedView()
+                stickyHolder.stickView(draggableView)
                 return true
             }
         }
@@ -23,16 +21,16 @@ class MainViewModel: ViewModel() {
         return false
     }
 
-    fun addGreenBoxState(state: CardBoxState) {
-        greenBoxStates.add(state)
+    fun addStickyHolderState(state: StickyHolderState) {
+        stickyHoldersStates.add(state)
     }
 
     fun addDraggableViewState(state: DraggableViewState) {
         draggableViewStates.add(state)
     }
 
-    fun onCardClick(greenBox: CardBoxState) {
-        greenBox.releaseStickiedView()
+    fun onStickerClick(stickyHolder: StickyHolderState) {
+        stickyHolder.releaseStickiedView()
     }
 }
 
