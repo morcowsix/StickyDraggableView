@@ -2,7 +2,7 @@ package com.example.dragableview
 
 import androidx.lifecycle.ViewModel
 
-class MainViewModel: ViewModel() {
+class StickyViewModel: ViewModel() {
 
     private val stickyHoldersStates = mutableSetOf<StickyHolderState>()
     private val draggableViewStates = mutableSetOf<DraggableViewState>()

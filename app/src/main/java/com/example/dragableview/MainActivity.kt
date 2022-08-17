@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val viewModel: MainViewModel by viewModels()
+            val viewModel: StickyViewModel by viewModels()
             DragableViewTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -76,7 +76,7 @@ class MainActivity : ComponentActivity() {
                                     )
 
                                     Sticker(
-                                        state = state
+                                        visible = state.stickerIsVisible()
                                     ) {
 //                                        Button(
 //                                            onClick = { viewModel.onCardClick(state) },

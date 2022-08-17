@@ -6,16 +6,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.zIndex
 
+/**
+ * A layout composable with [content].
+ * Using for fill [StickyHolder] as secondary component. The first one can be any Composable.
+ * The [Sticker] is usually filled with a static copy of the [DraggableStickyView] but can be
+ * filled with any Composable. To remove a [Sticker] from [StickyHolder], the nested component
+ * must have onStickerClick function.
+ *
+ * @param modifier The modifier to be applied to the layout.
+ * @param visible The visible state of Sticker.
+ * @param content The content of the [Sticker].
+ */
+
 @Composable
 fun Sticker(
     modifier: Modifier = Modifier,
-    state: StickyHolderState,
+    visible: Boolean,
     content: @Composable () -> Unit
 ) {
     AnimatedVisibility(
         modifier = modifier
             .zIndex(2f),
-        visible = state.stickerIsVisible()
+        visible = visible
     ) {
         Layout(
             content = content
