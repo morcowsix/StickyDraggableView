@@ -11,7 +11,7 @@ import androidx.compose.ui.zIndex
  * Using for fill [StickyHolder] as secondary component. The first one can be any Composable.
  * The [Sticker] is usually filled with a static copy of the [DraggableStickyView] but can be
  * filled with any Composable. To remove a [Sticker] from [StickyHolder], the nested component
- * must have onStickerClick function.
+ * must have releaseStickiedView function from [StickyHolderState].
  *
  * @param modifier The modifier to be applied to the layout.
  * @param visible The visible state of Sticker.

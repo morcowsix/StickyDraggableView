@@ -1,6 +1,5 @@
 package com.example.dragableview
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -10,6 +9,21 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.zIndex
 
+/**
+ * A layout composable with [content].
+ * [StickyHolder] using as a keeper of main content and [Sticker].The first component should be
+ * any Composable that you want to use as the main content (background for [Sticker]).
+ * The second component is a [Sticker] containing a Composable that will be attached to the main
+ * content (background). Stickied [Sticker] can be removed from [StickyHolder] by
+ * releaseStickiedView function in [StickyHolderState] class.
+ *
+ * @param modifier The modifier to be applied to the layout.
+ * @param state The state supplying information about [StickyHolder] position and stickied
+ * [DraggableStickyView].
+ * @param rememberState The function used for remember [StickyHolder]'s state.
+ * @param stickerAlignment The default sticker alignment inside the [StickyHolder].
+ * @param content The content of the [StickyHolder].
+ */
 
 @Composable
 fun StickyHolder(
