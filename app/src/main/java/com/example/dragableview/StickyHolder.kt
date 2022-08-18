@@ -49,7 +49,7 @@ fun StickyHolder(
     )
 }
 
-internal fun measurePolicy(stickerAlignment: Alignment) =
+private fun measurePolicy(stickerAlignment: Alignment) =
     MeasurePolicy { measurables, constraints ->
         val looseConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         val placeables = measurables.map { measurable ->

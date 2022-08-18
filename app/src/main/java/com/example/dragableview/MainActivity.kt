@@ -6,9 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,11 +42,52 @@ class MainActivity : ComponentActivity() {
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             (1..3).forEach {
-                                DraggableStickyView(
-                                    state = DraggableViewState(Offset.Zero, Offset.Zero, mutableStateOf(true), "ABC".random()),
-                                    checkIntersection = viewModel::checkCardsForIntersection,
-                                    addStateToList = viewModel::addDraggableViewState
-                                )
+                                val state = DraggableViewState(Offset.Zero, Offset.Zero, mutableStateOf(true), "ABC".random())
+                                Box {
+                                    DraggableStickyView(
+                                        state = state,
+                                        checkIntersection = viewModel::checkCardsForIntersection,
+                                        rememberState = viewModel::addDraggableViewState
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .background(Color.Blue)
+                                                .size(50.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = state.content.toString(),
+                                                textAlign = TextAlign.Center,
+                                                color = Color.White,
+                                                fontSize = 32.sp
+                                            )
+                                        }
+//                                        Button(onClick = { /*TODO*/ }) {
+//                                            Text(text = "BUTTON " + state.content.toString())
+//                                        }
+                                    }
+//                                        OutlinedButton(onClick = { /*TODO*/ }) {
+//                                            Text(text = "BUTTON " + state.content.toString(), color = Color.LightGray.copy(alpha = 0.8f))
+//                                        }
+                                    Box(
+                                        modifier = Modifier
+                                            .size(50.dp)
+                                            .border(
+                                                width = 1.dp,
+                                                color = Color.Blue.copy(alpha = 0.6f)
+                                            ),
+                                        contentAlignment = Alignment.Center
+
+                                    ) {
+                                        Text(
+                                            text = state.content.toString(),
+                                            textAlign = TextAlign.Center,
+                                            color = Color.LightGray,
+                                            fontSize = 32.sp
+                                        )
+                                    }
+                                }
+
                             }
                         }
 
@@ -79,11 +118,14 @@ class MainActivity : ComponentActivity() {
                                         visible = state.stickerIsVisible()
                                     ) {
 //                                        Button(
-//                                            onClick = { viewModel.onCardClick(state) },
+//                                            onClick = { viewModel.onStickerClick(state) },
 //                                            modifier = Modifier
 //                                                .padding(bottom = 30.dp)
 //                                        ) {
-//                                            Text(text = "button1")
+//                                            Text(
+//                                                text = "BUTTON " + state.getStickiedContent(),
+//                                                color = if (state.stickerIsVisible()) Color.White else Color.Transparent
+//                                            )
 //                                        }
                                         Text(
                                             text = state.getStickiedContent(),
