@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "DragableView"
-include ':app'
+rootProject.name = "StickyDraggableView"
+include ':stickydraggableview'
