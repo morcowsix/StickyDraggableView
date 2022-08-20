@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -41,4 +42,18 @@ dependencies {
     implementation "androidx.compose.animation:animation:$compose_version"
     implementation 'androidx.compose.material3:material3:1.0.0-alpha01'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.github.zarapawolf'
+                artifactId = 'sticky-draggable-view'
+                version = '1.0'
+            }
+        }
+    }
 }
